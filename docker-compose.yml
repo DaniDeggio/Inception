@@ -1,0 +1,7 @@
+version: "3.8"
+
+srervices:
+  ngix:
+    build: requirements/ngix/.
+    containername: ngix
+      - "80:80"
