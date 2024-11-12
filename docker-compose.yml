@@ -5,3 +5,6 @@ srervices:
     build: requirements/ngix/.
     containername: ngix
       - "80:80"
+  wordpress:
+    build: requirements/wordpress/.
+    containername: wp-php
