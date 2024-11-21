@@ -1,5 +1,6 @@
-FROM debian:lastest
+FROM debian:bullseye
 
-RUN apt update && apt upgrade && apt install -y php-fpm
+RUN apt-get update && apt-get upgrade
+RUN apt-get install -y php-fpm
 
 CMD ["php-fpm.2", "-F"]

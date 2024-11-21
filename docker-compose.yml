@@ -1,10 +1,10 @@
 version: "3.8"
 
-srervices:
+services:
   ngix:
     build: requirements/ngix/.
-    containername: ngix
+    container_name: ngix
       - "80:80"
   wordpress:
     build: requirements/wordpress/.
-    containername: wp-php
+    container_name: wp-php

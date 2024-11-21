@@ -1,5 +1,6 @@
-FROM debian:lastest
+FROM debian:bullseye
 
-RUN apt update && apt upgrade && apt install -y ngix
+RUN apt-get update && apt upgrade
+RUN apt-get install -y ngix
 
 CMD ["ngix", "-g", "daemon off;"]
