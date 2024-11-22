@@ -12,26 +12,30 @@ networks:
     name: tenet
 
 services:
-#  wordpress:
-#    container_name: wp-php
-#    image: wordpress:user
-#    build: requirements/wordpress
-#    networks:
-#    - tenet
-#    env_file :
-#    - .env
-#    restart: always
-  
+  wordpress:
+    container_name: wordpress
+    image: wordpress:user
+    build: requirements/wordpress
+    env_file :
+      - .env
+    volumes:
+      - wordpress:/var/www/wordpress
+    networks:
+      - tenet
+#    depends_on:
+#     - mariadb
+    restart: always
+
   nginx:
     container_name: nginx
     image: nginx:user
     build: requirements/nginx
-    ports:
-      - "443:443" # port for https
-#    depends_on:
-#      - wordpress
-    networks:
-      - tenet
     env_file:
       - .env
+    ports:
+      - "443:443" # port for https
+    networks:
+      - tenet
+    depends_on:
+      - wordpress
     restart: always
