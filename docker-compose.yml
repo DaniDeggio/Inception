@@ -1,11 +1,37 @@
-version: "3.8"
+volumes:
+  wordpress:
+    name: wordpress
+    driver: local # local driver is used to bind the volume to the host
+    driver_opts:
+      device: ~/data/wordpress # path to the volume on the host
+      o : bind # bind mounting host volume to the container
+      type : none
+
+networks:
+  tenet: # internal network for the services
+    name: tenet
 
 services:
+#  wordpress:
+#    container_name: wp-php
+#    image: wordpress:user
+#    build: requirements/wordpress
+#    networks:
+#    - tenet
+#    env_file :
+#    - .env
+#    restart: always
+  
   nginx:
-    build: requirements/nginx/.
     container_name: nginx
+    image: nginx:user
+    build: requirements/nginx
     ports:
-      - "80:80"
-  wordpress:
-    build: requirements/wordpress/.
-    container_name: wp-php
+      - "443:443" # port for https
+#    depends_on:
+#      - wordpress
+    networks:
+      - tenet
+    env_file:
+      - .env
+    restart: always
