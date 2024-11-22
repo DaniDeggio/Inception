@@ -1,4 +1,12 @@
 volumes:
+  mariadb:
+    name: mariadb
+    driver: local # local driver is used to bind the volume to the host
+    driver_opts:
+      device: ~/data/mariadb # path to the volume on the host
+      o : bind # bind mounting host volume to the container
+      type : none
+
   wordpress:
     name: wordpress
     driver: local # local driver is used to bind the volume to the host
@@ -7,11 +15,25 @@ volumes:
       o : bind # bind mounting host volume to the container
       type : none
 
+
 networks:
   tenet: # internal network for the services
     name: tenet
 
+
 services:
+  mariadb:
+    container_name: mariadb
+    image: mariadb:user
+    build: requirements/mariadb
+    env_file :
+      - .env
+    volumes:
+      - mariadb:/var/lib/mysql
+    networks:
+      - tenet
+    restart: always
+
   wordpress:
     container_name: wordpress
     image: wordpress:user
@@ -22,8 +44,8 @@ services:
       - wordpress:/var/www/wordpress
     networks:
       - tenet
-#    depends_on:
-#     - mariadb
+    depends_on:
+     - mariadb
     restart: always
 
   nginx:
@@ -33,7 +55,7 @@ services:
     env_file:
       - .env
     ports:
-      - "443:443" # port for https
+      - "443:443" # port forwarding for https
     networks:
       - tenet
     depends_on:
