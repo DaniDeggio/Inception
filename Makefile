@@ -6,7 +6,7 @@
 #    By: dde-giov <dde-giov@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/25 17:46:13 by dde-giov          #+#    #+#              #
-#    Updated: 2024/11/25 18:26:58 by dde-giov         ###   ########.fr        #
+#    Updated: 2024/11/25 18:43:47 by dde-giov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ DB_DIR = ~/data/mariadb
 
 USER := $(shell whoami)
 
-RM := sudo rm -f
+DOMAIN := dde-giov.42.fr
+
+RM := sudo rm -rf
 
 # COLORS
 CLR_RMV := \033[0m
@@ -85,6 +87,15 @@ fix-permissions:
 		echo "$(YELLOW)Please log out and log back in for the group changes to take effect.$(CLR_RMV)"; \
 	else \
 		echo "$(GREEN)User $(USER) is already in the Docker group$(CLR_RMV)"; \
+	fi
+
+fix-dns:
+	@echo "$(CYAN)Checking if DNS entry for $(DOMAIN) already exists...$(CLR_RMV)"
+	@if ! grep -q "$(DOMAIN)" /etc/hosts; then \
+		echo "$(YELLOW)Adding DNS entry for $(DOMAIN) to /etc/hosts...$(CLR_RMV)"; \
+		echo "0.0.0.0 $(DOMAIN)" | sudo tee -a /etc/hosts > /dev/null; \
+	else \
+		echo "$(GREEN)DNS entry for $(DOMAIN) already exists in /etc/hosts$(CLR_RMV)"; \
 	fi
 
 .PHONY: all clean prune down re fix-permissions
