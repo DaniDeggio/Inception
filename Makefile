@@ -6,7 +6,7 @@
 #    By: dde-giov <dde-giov@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/25 17:46:13 by dde-giov          #+#    #+#              #
-#    Updated: 2024/11/25 18:43:47 by dde-giov         ###   ########.fr        #
+#    Updated: 2024/11/25 18:53:42 by dde-giov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,17 +48,29 @@ $(NAME):
 
 clean:
 	@echo "$(RED)Stopping containers $(CLR_RMV)"
-	@docker stop $$(docker ps -qa) || true
-	
+	@if [ -n "$$(docker ps -qa)" ]; then \
+		docker stop $$(docker ps -qa); \
+	fi
+
 	@echo "$(RED)Removing containers $(CLR_RMV)"
-	@docker rm $$(docker ps -qa) || true
-	@docker rmi -f $$(docker images -qa) || true
-	
+	@if [ -n "$$(docker ps -qa)" ]; then \
+		docker rm $$(docker ps -qa); \
+	fi
+
+	@echo "$(RED)Removing images $(CLR_RMV)"
+	@if [ -n "$$(docker images -qa)" ]; then \
+		docker rmi -f $$(docker images -qa); \
+	fi
+
 	@echo "$(RED)Removing volumes $(CLR_RMV)"
-	@docker volume rm $$(docker volume ls -q) || true
+	@if [ -n "$$(docker volume ls -q)" ]; then \
+		docker volume rm $$(docker volume ls -q); \
+	fi
 
 	@echo "$(RED)Removing networks $(CLR_RMV)"
-	@docker network rm $$(docker network ls -q) || true
+	@if [ -n "$$(docker network ls --format '{{.Name}}' | grep -v 'bridge\|host\|none')" ]; then \
+		docker network rm $$(docker network ls --format '{{.Name}}' | grep -v 'bridge\|host\|none'); \
+	fi
 
 	@echo "$(RED)Removing data directories $(CLR_RMV)"
 	@$(RM) $(WP_DIR) || true
