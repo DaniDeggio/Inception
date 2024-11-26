@@ -6,7 +6,7 @@
 #    By: dde-giov <dde-giov@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/25 17:46:13 by dde-giov          #+#    #+#              #
-#    Updated: 2024/11/26 02:06:11 by dde-giov         ###   ########.fr        #
+#    Updated: 2024/11/26 02:12:30 by dde-giov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -45,6 +45,8 @@ $(NAME):
 
 	$(DKCMP) $(CMPYML) up -d
 	@echo "$(GREEN)$(NAME) started [0m ✔️"
+
+up: all
 
 clean:
 	@echo "$(RED)Stopping containers $(CLR_RMV)"
@@ -110,4 +112,4 @@ fix-dns:
 		echo "$(GREEN)DNS entry for $(DOMAIN) already exists in /etc/hosts$(CLR_RMV)"; \
 	fi
 
-.PHONY: all clean prune down re fix-permissions fix-dns
+.PHONY: all up clean prune down re fix-permissions fix-dns
