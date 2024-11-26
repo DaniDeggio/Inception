@@ -6,7 +6,7 @@
 #    By: dde-giov <dde-giov@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/25 17:46:13 by dde-giov          #+#    #+#              #
-#    Updated: 2024/11/25 18:53:42 by dde-giov         ###   ########.fr        #
+#    Updated: 2024/11/26 02:06:11 by dde-giov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ DB_DIR = ~/data/mariadb
 
 USER := $(shell whoami)
 
-DOMAIN := dde-giov.42.fr
+DOMAIN := $(shell grep ^DOMAIN_NAME= ./srcs/.env | cut -d '=' -f 2)
 
 RM := sudo rm -rf
 
@@ -110,4 +110,4 @@ fix-dns:
 		echo "$(GREEN)DNS entry for $(DOMAIN) already exists in /etc/hosts$(CLR_RMV)"; \
 	fi
 
-.PHONY: all clean prune down re fix-permissions
+.PHONY: all clean prune down re fix-permissions fix-dns
