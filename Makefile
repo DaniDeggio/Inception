@@ -6,7 +6,7 @@
 #    By: dde-giov <dde-giov@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/25 17:46:13 by dde-giov          #+#    #+#              #
-#    Updated: 2024/11/26 02:12:30 by dde-giov         ###   ########.fr        #
+#    Updated: 2024/11/26 02:26:59 by dde-giov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,12 @@ $(NAME):
 	$(DKCMP) $(CMPYML) up -d
 	@echo "$(GREEN)$(NAME) started [0m ✔️"
 
-up: all
+build: $(NAME)
+
+up:
+	@echo "$(GREEN)Starting $(NAME) $(CLR_RMV)..."
+	$(DKCMP) $(CMPYML) up -d
+	@echo "$(GREEN)$(NAME) started [0m ✔️"
 
 clean:
 	@echo "$(RED)Stopping containers $(CLR_RMV)"
@@ -87,6 +92,8 @@ down:
 
 re: clean all
 
+restart: down up
+
 fix-permissions:
 	@echo "$(CYAN)Configuring Docker to run without sudo...$(CLR_RMV)"
 	@if ! getent group docker > /dev/null; then \
@@ -112,4 +119,4 @@ fix-dns:
 		echo "$(GREEN)DNS entry for $(DOMAIN) already exists in /etc/hosts$(CLR_RMV)"; \
 	fi
 
-.PHONY: all up clean prune down re fix-permissions fix-dns
+.PHONY: all up build clean prune down re restart fix-permissions fix-dns
