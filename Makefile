@@ -6,7 +6,7 @@
 #    By: dde-giov <dde-giov@student.42roma.it>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/25 17:46:13 by dde-giov          #+#    #+#              #
-#    Updated: 2024/11/26 02:26:59 by dde-giov         ###   ########.fr        #
+#    Updated: 2024/11/27 02:58:49 by dde-giov         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,14 +44,14 @@ $(NAME):
 	@mkdir -p $(DB_DIR)
 
 	$(DKCMP) $(CMPYML) up -d
-	@echo "$(GREEN)$(NAME) started [0m ✔️"
+	@echo "$(GREEN)$(NAME) started  $(CLR_RMV) ✔️"
 
 build: $(NAME)
 
 up:
 	@echo "$(GREEN)Starting $(NAME) $(CLR_RMV)..."
 	$(DKCMP) $(CMPYML) up -d
-	@echo "$(GREEN)$(NAME) started [0m ✔️"
+	@echo "$(GREEN)$(NAME) started  $(CLR_RMV) ✔️"
 
 clean:
 	@echo "$(RED)Stopping containers $(CLR_RMV)"
